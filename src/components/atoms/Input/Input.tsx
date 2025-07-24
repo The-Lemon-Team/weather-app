@@ -31,6 +31,8 @@ export const Input: React.FC<IInputProps> = ({
 
   onChange = () => void 0,
   onFocus,
+
+  ...props
 }) => {
   return (
     <div
@@ -59,6 +61,7 @@ export const Input: React.FC<IInputProps> = ({
         value={value}
         onChange={(e) => onChange && onChange(e.target.value)}
         onFocus={onFocus}
+        {...props}
       />
     </div>
   );

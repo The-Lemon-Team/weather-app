@@ -1,68 +1,67 @@
-// @todo Подрезать не нужные поля?
-
-import type { IApiError } from "./IApiError";
-
-// @todo Добавить флаги стран, использовать для этого сторонний API.
-export interface IApiAutocompleteResponseItem {
-  id: number;
+export interface ILocation {
   name: string;
   region: string;
   country: string;
   lat: number;
   lon: number;
-  url: string;
+  tz_id: string;
+  localtime_epoch: number;
+  localtime: string;
+}
+
+export interface ICondition {
+  text: string;
+  icon: string;
+  code: number;
+}
+
+export interface IAirQuality {
+  co: number;
+  no2: number;
+  o3: number;
+  so2: number;
+  pm2_5: number;
+  pm10: number;
+}
+export interface IApiAutocompleteResponseItem {
+  id?: number;
+  name: string;
+  region: string;
+  country: string;
+  lat: number;
+  lon: number;
+  url?: string;
+}
+
+export interface ICurrent {
+  last_updated_epoch: number;
+  last_updated: string;
+  temp_c: number;
+  temp_f: number;
+  is_day: number;
+  condition: ICondition;
+  wind_mph: number;
+  wind_kph: number;
+  wind_degree: number;
+  wind_dir: string;
+  pressure_mb: number;
+  pressure_in: number;
+  precip_mm: number;
+  precip_in: number;
+  humidity: number;
+  cloud: number;
+  feelslike_c: number;
+  feelslike_f: number;
+  vis_km: number;
+  vis_miles: number;
+  uv: number;
+  gust_mph: number;
+  air_quality: IAirQuality;
 }
 
 export interface IApiRealtimeApiResponseItem {
-  location: {
-    name: string;
-    region: string;
-    country: string;
-    lat: number;
-    lon: number;
-    tz_id: string;
-    localtime_epoch: number;
-    localtime: string;
-  };
-  current: {
-    last_updated_epoch: number;
-    last_updated: string;
-    temp_c: number;
-    temp_f: number;
-    is_day: number;
-    condition: {
-      text: string;
-      icon: string;
-      code: number;
-    };
-    wind_mph: number;
-    wind_kph: number;
-    wind_degree: number;
-    wind_dir: string;
-    pressure_mb: number;
-    pressure_in: number;
-    precip_mm: number;
-    precip_in: number;
-    humidity: number;
-    cloud: number;
-    feelslike_c: number;
-    feelslike_f: number;
-    vis_km: number;
-    vis_miles: number;
-    uv: number;
-    gust_mph: number;
-    gust_kph: 18.7;
-    air_quality: {
-      co: number;
-      no2: number;
-      o3: number;
-      so2: number;
-      pm2_5: number;
-      pm10: number;
-      "us-epa-index": number;
-      "gb-defra-index": number;
-    };
-  };
+  location: ILocation;
+  current: ICurrent;
 }
 
 export interface IWeatherCard {
@@ -74,11 +73,3 @@ export interface IWeatherCard {
   humidity: number;
   iconUrl: string;
 }
-
-export type IApiAutocompleteResponse =
-  | Array<IApiAutocompleteResponseItem>
-  | IApiError;
-
-export type IRealtimeApiResponse =
-  | Array<IApiRealtimeApiResponseItem>
-  | IApiError;

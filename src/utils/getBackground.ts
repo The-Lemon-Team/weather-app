@@ -44,6 +44,7 @@ const backgroundMap: Map<string, string> = new Map([
   ["Torrential rain shower", "bg-[url('/backgrounds/rainy.webp')]"],
   ["Light sleet showers", "bg-[url('/backgrounds/rainy.webp')]"],
   ["Moderate or heavy sleet showers", "bg-[url('/backgrounds/rainy.webp')]"],
+  ["Patchy rain nearby", "bg-[url('/backgrounds/rainy.webp')]"],
 
   // frezzeing?
   ["Freezing fog", "bg-[url('/backgrounds/snow.webp')]"],

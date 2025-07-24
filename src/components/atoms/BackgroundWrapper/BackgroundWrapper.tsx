@@ -13,8 +13,6 @@ export const BackgroundWrapper: React.FC<PropsWithChildren> = ({
   const { selectedCity } = useSelectedCity();
   const background = getBackgroundClass(selectedCity?.condition);
 
-  console.log("selectedCity", background, selectedCity?.condition);
-
   return (
     <div
       className={classNames(

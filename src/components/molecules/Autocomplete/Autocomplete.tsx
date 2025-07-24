@@ -23,7 +23,7 @@ export const Autocomplete: React.FC = ({}) => {
   } = useAutocomplete();
 
   return (
-    <div id="hs-combobox-basic-usage" className="relative">
+    <div id="hs-combobox-basic-usage" className="relative" ref={wrapperRef}>
       <div className="relative">
         <Input
           type="text"
@@ -33,11 +33,17 @@ export const Autocomplete: React.FC = ({}) => {
           onFocus={handleOnFocus}
           value={searchTerm}
           placeholder="Поиск населенного пункта"
+          aria-controls="autocomplete-listbox"
+          aria-activedescendant={
+            showList && items.length > 0 ? `autocomplete-item-${0}` : undefined
+          }
         />
-        <div
+        <button
+          type="button"
           className="absolute top-1/2 end-3 -translate-y-1/2"
           aria-expanded={showList}
-          role="button"
+          aria-label="Открыть список вариантов"
+          tabIndex={0}
         >
           <svg
             className="shrink-0 size-3.5 text-gray-500 dark:text-neutral-500"
@@ -54,21 +60,20 @@ export const Autocomplete: React.FC = ({}) => {
             <path d="m7 15 5 5 5-5"></path>
             <path d="m7 9 5-5 5 5"></path>
           </svg>
-        </div>
+        </button>
       </div>
       {showList && (!!items?.length || !!error || isLoading) && (
         <div
-          ref={wrapperRef}
           className="absolute z-50 w-full max-h-72 p-1 bg-white border border-gray-200 rounded-lg overflow-hidden overflow-y-auto [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-gray-300 dark:[&::-webkit-scrollbar-track]:bg-neutral-700 dark:[&::-webkit-scrollbar-thumb]:bg-neutral-500 dark:bg-neutral-900 dark:border-neutral-700"
           role="listbox"
         >
           {isLoading && (
-            <AutocompleteItem tabIndex={1} key="loading">
+            <AutocompleteItem tabIndex={-1} key="loading">
               Загрузка...
             </AutocompleteItem>
           )}
           {status === "error" && (
-            <AutocompleteItem tabIndex={1} key="error">
+            <AutocompleteItem tabIndex={-1} key="error">
               Ошибка, перезагрузите страницу
             </AutocompleteItem>
           )}
@@ -78,7 +83,7 @@ export const Autocomplete: React.FC = ({}) => {
                 tabIndex={i}
                 onSelect={handleOnSelect}
                 item={item}
-                key={i}
+                key={item.id}
               />
             ))}
         </div>

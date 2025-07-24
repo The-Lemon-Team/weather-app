@@ -2,22 +2,21 @@ import axios from "axios";
 
 import { API_KEY, BASE_URL } from "@/constants";
 
-import { IWeatherCurrent } from "@/interfaces/IWeather";
-
-console.log("API_KEY", API_KEY);
+import { IWeatherCurrent, IWeatherLocation } from "@/interfaces/IWeather";
 
 export const weatherApi = {
-  async searchAutocomplete(query: string) {
+  async searchAutocomplete(query: string): Promise<IWeatherLocation[]> {
     try {
-      const res = await axios.get(
-        `${BASE_URL}/search.json?key=${API_KEY}&q=${encodeURIComponent(query)}`,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json",
-          },
-        }
-      );
+      const res = await axios.get(`${BASE_URL}/search.json`, {
+        params: {
+          key: API_KEY,
+          q: query,
+        },
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+      });
 
       return res.data;
     } catch {
@@ -27,17 +26,16 @@ export const weatherApi = {
 
   async usingCurrent(query: string): Promise<IWeatherCurrent> {
     try {
-      const res = await axios.get(
-        `${BASE_URL}/current.json?key=${API_KEY}&q=${encodeURIComponent(
-          query
-        )}`,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json",
-          },
-        }
-      );
+      const res = await axios.get(`${BASE_URL}/current.json`, {
+        params: {
+          key: API_KEY,
+          q: query,
+        },
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+      });
 
       return res.data;
     } catch {

@@ -18,15 +18,22 @@ export const useSearch = create<ISearch>()((set) => ({
   items: null,
   error: null,
   search: async (query: string) => {
-    set(() => ({ status: "loading", error: null }));
+    set(() => ({ status: "loading", error: null, items: null }));
     try {
       const items = await weatherApi.searchAutocomplete(query);
 
-      console.log("items", items);
-
       set(() => ({ status: "success", error: null, items }));
     } catch (error) {
-      set(() => ({ error: error as IApiError, status: "error" }));
+      const apiError: IApiError = {
+        code: (error as any)?.response?.status || 500,
+        message: (error as any)?.message || "Unknown error",
+      };
+
+      set(() => ({
+        error: apiError as IApiError,
+        status: "error",
+        items: null,
+      }));
     }
   },
 }));
